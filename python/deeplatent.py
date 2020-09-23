@@ -10,8 +10,8 @@ class DeepLatentNN(nn.Module):
     def __init__(self, n_u, H1 =50, D_out = 10):
         super(DeepLatentNN, self).__init__()
         
-        self.layer1 = nn.Embedding(n_u,10)
-        self.layer2 = nn.Linear(10,H1)
+        self.layer1 = nn.Linear(n_u,10000)
+        self.layer2 = nn.Linear(10000,H1)
         self.layerOut   =  nn.Linear(H1, 1)
         
 
