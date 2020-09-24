@@ -7,26 +7,19 @@ import torch.nn.functional as F
 
 class DeepLatentNN(nn.Module):
 
-    def __init__(self, n_u, H1 =50, D_out = 50):
+    def __init__(self, n_users, n_movies, n_factors):
         super(DeepLatentNN, self).__init__()
-        self.layerEncode = nn.Embedding(n_u,50
-        self.layer1 = nn.Linear(3,10)
-        self.layer2 = nn.Linear(50,H1)
-        self.layerOut   =  nn.Linear(H1, 1)
+        self.layerEncodeU = nn.Embedding(n_users ,n_factors,sparse=True)
+        self.layerEncodeM = nn.Embedding(n_movies,n_factors,sparse=True)
+        self.layerEncodeUB = torch.nn.Embedding(n_users, 1, sparse=True)
+        self.layerEncodeMB = torch.nn.Embedding(n_movies, 1, sparse=True)
+
+    
+    def forward(self, x1, x2):  
+        preds = self.layerEncodeUB(x1) + self.layerEncodeMB(x2)
+        preds += (self.layerEncodeU(x1) * self.layerEncodeM(x2)).sum(dim=1, keepdim=True)
+        return preds.squeeze()
         
-
-
-
-    def forward(self, x):  
-        
-        x_h = self.layerEncode(x)
-        #x_h =  torch.cat((self.layerEncode(x[:,0]), self.layer1(x[:,1:])),1)
-        x_h2 = F.sigmoid(self.layer2(x_h))
-        preds = self.layerOut(x_h2)
-
-        print(preds)
-
-        return preds
 
 
 
