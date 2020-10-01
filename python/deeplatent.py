@@ -3,8 +3,6 @@ import torch
 import torch.nn as nn
 import torch.nn.functional as F
 
-
-
 class DeepLatentNN(nn.Module):
 
     def __init__(self, n_users, n_movies, n_factors):
