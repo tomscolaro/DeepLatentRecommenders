@@ -29,7 +29,8 @@ class DeepLatentNN(nn.Module):
         return preds.squeeze()
         
 
-
+class timeEncodedNN(nn.Module):
+    
 
 
 
